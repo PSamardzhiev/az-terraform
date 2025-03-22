@@ -1,0 +1,30 @@
+{
+    "general": {
+        "location": "west europe",
+        "rg_name": "accedia_rg"
+    },
+    
+    "network": {
+        "vnet_name": "accedia_vnet",
+        "subnet_name": "accedia_subnet",
+        "vnet_address": "10.0.0.0/16",
+        "subnet_address": "10.0.0.0/24",
+        "nsg_name": "accedia_nsg",
+        "nic_name": "accedia_nic",
+        "public_ip_name": "accedia_public_ip"
+    },
+    "vm": {
+        "vm_name": "accedia-vm",
+        "vm_size": "Standard_DC1s_v2",
+        "publisher": "Canonical",
+        "vm_version": "latest",
+        "offer": "ubuntu-24_04-lts",
+        "sku": "server",
+        "admin_username": "accedia",
+        "admin_password": "D3v0psP@ss1234!"
+    },
+    "ssh_key": {
+        "admin_ssh_username": "accedia",
+        "public_key_path": "~/.ssh/id_rsa.pub"
+    }
+}
