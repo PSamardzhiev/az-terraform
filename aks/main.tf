@@ -1,4 +1,6 @@
-# modules/aks/main.tf
+provider "azurerm" {
+  features {}
+}
 
 resource "azurerm_public_ip" "aks_public_ip" {
   name                = "${var.aks_cluster_name}-public-ip"
@@ -13,7 +15,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
-
+  
   default_node_pool {
     name           = "default"
     node_count     = var.node_count
