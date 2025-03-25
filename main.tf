@@ -45,6 +45,6 @@ module "vm" {
   vm_size              = local.json_vars.vm.vm_size
   vm_name              = local.json_vars.vm.vm_name
   network_interface_id = module.network.network_interface_id
-  admin_ssh_username = local.json_vars.ssh_key.admin_ssh_username
-  public_key_path = local.json_vars.ssh_key.public_key_path
+  admin_ssh_username   = local.json_vars.ssh_key.admin_ssh_username
+  public_key_path      = local.json_vars.ssh_key.public_key_path
 }

@@ -33,4 +33,19 @@ resource "azurerm_linux_virtual_machine" "accedia-vm" {
     username = var.admin_ssh_username
     public_key = "${file(var.public_key_path)}"
   }
+  connection {
+    host = self.public_ip_address
+    type = "ssh"
+    user = var.admin_ssh_username
+    private_key = file("~/.ssh/id_rsa")
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update -y",
+      "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash",
+      "curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl",
+      "chmod +x kubectl",
+      "sudo mv kubectl /usr/local/bin/kubectl",
+    ]
+  }
 }
