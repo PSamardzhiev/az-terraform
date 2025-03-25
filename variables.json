@@ -26,5 +26,16 @@
     "ssh_key": {
         "admin_ssh_username": "accedia",
         "public_key_path": "~/.ssh/id_rsa.pub"
+    },
+    "aks": {
+        "aks_cluster_name": "accedia-aks",
+        "dns_prefix": "accedia-aks",
+        "aks_node_count": 3,
+        "vm_size": "Standard_DC1s_v2",
+        "os_disk_size_gb": 30,
+        "tags": {
+            "Environment": "Development",
+            "Project": "Accedia"
+        }
     }
 }

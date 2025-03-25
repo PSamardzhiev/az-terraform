@@ -48,3 +48,15 @@ module "vm" {
   admin_ssh_username   = local.json_vars.ssh_key.admin_ssh_username
   public_key_path      = local.json_vars.ssh_key.public_key_path
 }
+module "aks" {
+  source = "./aks"
+  location = local.json_vars.general.location
+  resource_group_name = local.json_vars.general.rg_name
+  aks_cluster_name = local.json_vars.aks.aks_cluster_name
+  dns_prefix = local.json_vars.aks.dns_prefix
+  node_count = local.json_vars.aks.node_count
+  vm_size = local.json_vars.aks.vm_size
+  os_disk_size_gb = local.json_vars.aks.os_disk_size_gb
+  tags = local.json_vars.aks.tags
+
+}
