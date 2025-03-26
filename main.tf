@@ -1,16 +1,3 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=3.0.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features {}
-}
-
 locals {
   json_vars = jsondecode(file("${path.module}/variables.json"))
 }
@@ -31,6 +18,8 @@ module "network" {
   nsg_name       = local.json_vars.network.nsg_name
   nic_name       = local.json_vars.network.nic_name
   public_ip_name = local.json_vars.network.public_ip_name
+
+  depends_on = [ azurerm_resource_group.rg_name ]
 }
 module "vm" {
   source               = "./vm"
@@ -47,6 +36,8 @@ module "vm" {
   network_interface_id = module.network.network_interface_id
   admin_ssh_username   = local.json_vars.ssh_key.admin_ssh_username
   public_key_path      = local.json_vars.ssh_key.public_key_path
+
+  depends_on = [ module.network ]
 }
 module "aks" {
   source              = "./aks"
@@ -59,4 +50,5 @@ module "aks" {
   os_disk_size_gb     = local.json_vars.aks.os_disk_size_gb
   tags                = local.json_vars.aks.tags
 
+  depends_on = [ module.network ]
 }
