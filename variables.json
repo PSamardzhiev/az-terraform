@@ -31,7 +31,7 @@
         "aks_cluster_name": "accedia-aks",
         "dns_prefix": "accedia-aks",
         "aks_node_count": 3,
-        "vm_size": "Standard_DC1s_v2",
+        "vm_size": "Standard_D2_v2",
         "os_disk_size_gb": 30,
         "tags": {
             "Environment": "Development",

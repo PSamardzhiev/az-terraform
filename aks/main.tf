@@ -1,6 +1,3 @@
-provider "azurerm" {
-  features {}
-}
 
 resource "azurerm_public_ip" "aks_public_ip" {
   name                = "${var.aks_cluster_name}-public-ip"
@@ -17,11 +14,10 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   dns_prefix          = var.dns_prefix
   
   default_node_pool {
-    name           = "default"
-    node_count     = var.node_count
+    name           = "agentpool"
     vm_size        = var.vm_size
+    node_count     = var.node_count
     os_disk_size_gb = var.os_disk_size_gb
-    type           = "VirtualMachineScaleSets"
   }
 
   identity {
@@ -31,10 +27,10 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   tags = var.tags
 
   network_profile {
-  load_balancer_sku = "standard"
-  load_balancer_profile {
-    outbound_ip_address_ids = [azurerm_public_ip.aks_public_ip.id,]
+    load_balancer_sku = "standard"
+    load_balancer_profile {
+      outbound_ip_address_ids = [azurerm_public_ip.aks_public_ip.id,]
   }
-  network_plugin = "azure"
+    network_plugin = "azure"
 }
 }
