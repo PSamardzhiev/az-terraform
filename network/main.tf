@@ -25,9 +25,6 @@ resource azurerm_network_interface "nic" {
   depends_on = [ azurerm_public_ip.accedia-pip ]
 
 }
-output "public_ip_address" {
-  value = azurerm_public_ip.accedia-pip.ip_address
-}
 
 resource "azurerm_public_ip" "accedia-pip" {
   name                = var.public_ip_name
