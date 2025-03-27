@@ -1,6 +1,6 @@
 # az-terraform
 Resources in Azure Created with Hashicorp Terraform \
-```dev-v1 branch - for version 1 solution```\
-```dev-v2 branch - for version 2 solution```\
+```dev-v1 branch - for version 1 solution``` - basic Azure VM Compute deployment from a single Terraform file\
+```dev-v2 branch - for version 2 solution``` - deploying Azure VM Compute with Terraform and use of a Terraform Modules and variables from JSON file\
 ```dev-v3 branch - for version 3 solution - Azure Kubernetes Cluster (AKS) creation with terraform ```
 
