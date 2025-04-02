@@ -15,7 +15,12 @@
     },
     "bastion_network": {
         "bastion_subnet_name": "AzureBastionSubnet",
-        "bastion_subnet_prefix": "10.0.23.0/24"
+        "bastion_subnet_prefix": "10.0.23.0/24",
+        "bastion_pip": "AzBastion-PIP"
+    },
+    "bastion_host": {
+        "bastion_name": "accedia-bastion",
+        "bastion_sku": "Standard"
     },
     "vm": {
         "vm_name": "accedia-vm",

@@ -20,7 +20,9 @@ module "network" {
   public_ip_name         = local.json_vars.network.public_ip_name
   bastion_subnet_preffix = local.json_vars.bastion_network.bastion_subnet_prefix
   bastion_subnet_name    = local.json_vars.bastion_network.bastion_subnet_name
-  depends_on             = [azurerm_resource_group.rg_name]
+  bastion_pip            = local.json_vars.bastion_network.bastion_pip
+
+  depends_on = [azurerm_resource_group.rg_name]
 }
 module "vm" {
   source               = "./vm"
@@ -39,6 +41,18 @@ module "vm" {
   public_key_path      = local.json_vars.ssh_key.public_key_path
 
   depends_on = [module.network]
+}
+
+module "bastion" {
+  source       = "./bastion"
+  rg_name      = azurerm_resource_group.rg_name.name
+  location     = azurerm_resource_group.rg_name.location
+  bastion_sku  = local.json_vars.bastion_host.bastion_sku
+  bastion_name = local.json_vars.bastion_host.bastion_name
+  depends_on   = [module.network]
+  public_ip_address_id = module.network.bastion_pip_id
+  subnet_id           = module.network.bastion_network_id
+
 }
 module "aks" {
   source              = "./aks"
