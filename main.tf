@@ -8,18 +8,21 @@ resource "azurerm_resource_group" "rg_name" {
 }
 
 module "network" {
-  source         = "./network"
-  rg_name        = azurerm_resource_group.rg_name.name
-  location       = azurerm_resource_group.rg_name.location
-  vnet_name      = local.json_vars.network.vnet_name
-  subnet_name    = local.json_vars.network.subnet_name
-  vnet_address   = local.json_vars.network.vnet_address
-  subnet_address = local.json_vars.network.subnet_address
-  nsg_name       = local.json_vars.network.nsg_name
-  nic_name       = local.json_vars.network.nic_name
-  public_ip_name = local.json_vars.network.public_ip_name
+  source                 = "./network"
+  rg_name                = azurerm_resource_group.rg_name.name
+  location               = azurerm_resource_group.rg_name.location
+  vnet_name              = local.json_vars.network.vnet_name
+  subnet_name            = local.json_vars.network.subnet_name
+  vnet_address           = local.json_vars.network.vnet_address
+  subnet_address         = local.json_vars.network.subnet_address
+  nsg_name               = local.json_vars.network.nsg_name
+  nic_name               = local.json_vars.network.nic_name
+  public_ip_name         = local.json_vars.network.public_ip_name
+  bastion_subnet_preffix = local.json_vars.bastion_network.bastion_subnet_prefix
+  bastion_subnet_name    = local.json_vars.bastion_network.bastion_subnet_name
+  bastion_pip            = local.json_vars.bastion_network.bastion_pip
 
-  depends_on = [ azurerm_resource_group.rg_name ]
+  depends_on = [azurerm_resource_group.rg_name]
 }
 module "vm" {
   source               = "./vm"
@@ -37,7 +40,19 @@ module "vm" {
   admin_ssh_username   = local.json_vars.ssh_key.admin_ssh_username
   public_key_path      = local.json_vars.ssh_key.public_key_path
 
-  depends_on = [ module.network ]
+  depends_on = [module.network]
+}
+
+module "bastion" {
+  source       = "./bastion"
+  rg_name      = azurerm_resource_group.rg_name.name
+  location     = azurerm_resource_group.rg_name.location
+  bastion_sku  = local.json_vars.bastion_host.bastion_sku
+  bastion_name = local.json_vars.bastion_host.bastion_name
+  depends_on   = [module.network]
+  public_ip_address_id = module.network.bastion_pip_id
+  subnet_id           = module.network.bastion_network_id
+
 }
 module "aks" {
   source              = "./aks"
@@ -50,5 +65,5 @@ module "aks" {
   os_disk_size_gb     = local.json_vars.aks.os_disk_size_gb
   tags                = local.json_vars.aks.tags
 
-  depends_on = [ module.network ]
+  depends_on = [module.network]
 }

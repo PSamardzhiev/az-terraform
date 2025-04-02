@@ -10,7 +10,21 @@ resource "azurerm_subnet" "subnet" {
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes = [var.subnet_address]
 }
+resource "azurerm_subnet" "BastionSubnet" {
+  name = var.bastion_subnet_name
+  resource_group_name = var.rg_name
+  virtual_network_name = var.vnet_name
+  address_prefixes = [ var.bastion_subnet_preffix ]
+  depends_on = [ azurerm_virtual_network.vnet ]
+}
 
+resource azurerm_public_ip "bastion-pip" {
+  name = var.bastion_pip
+  resource_group_name = var.rg_name
+  location = var.location
+  allocation_method = "Static"
+  sku = "Standard"
+}
 resource azurerm_network_interface "nic" {
   name = var.nic_name
   location = var.location
@@ -61,7 +75,7 @@ resource "azurerm_network_security_group" "accedia-nsg" {
     destination_port_range     = "80"
     destination_address_prefix = "*"
   }
-   security_rule {
+  security_rule {
     name                       = "Allow_SSH_Inbound"
     priority                   = 250
     direction                  = "Inbound"
