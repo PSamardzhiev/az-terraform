@@ -4,7 +4,8 @@
 *.tfstate
 # Ignore terraform lock file
 .terraform.lock.hcl
-
+DS_Store
+.DS_Store
 # .tfstate files
 *.tfstate
 *.tfstate.*
